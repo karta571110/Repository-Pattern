@@ -5,9 +5,8 @@ namespace Service
 {
     public class RPDbContext:DbContext
     {
-        public RPDbContext(DbContextOptions<RPDbContext> options):base(options)
-        {
+        public RPDbContext(DbContextOptions<RPDbContext> options):base(options){}
 
-        }
+        //public DbSet<ActivityItem> ActivityItems { get; set; }
     }
 }
