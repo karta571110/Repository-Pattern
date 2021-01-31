@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository Pattern", "Repository Pattern\Repository Pattern.csproj", "{F42EC546-FDAA-4597-9BAD-B5C2A4619333}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{5D2747CB-E039-4E6E-B2B8-C4CECD8FE625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{5D2747CB-E039-4E6E-B2B8-C4CECD8FE625}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Infra\Infra.csproj", "{973B200F-3C3D-46BB-B7AA-40A97DBD681A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,14 @@ Global
 		{F42EC546-FDAA-4597-9BAD-B5C2A4619333}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F42EC546-FDAA-4597-9BAD-B5C2A4619333}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F42EC546-FDAA-4597-9BAD-B5C2A4619333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2747CB-E039-4E6E-B2B8-C4CECD8FE625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2747CB-E039-4E6E-B2B8-C4CECD8FE625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2747CB-E039-4E6E-B2B8-C4CECD8FE625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2747CB-E039-4E6E-B2B8-C4CECD8FE625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{973B200F-3C3D-46BB-B7AA-40A97DBD681A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973B200F-3C3D-46BB-B7AA-40A97DBD681A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973B200F-3C3D-46BB-B7AA-40A97DBD681A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973B200F-3C3D-46BB-B7AA-40A97DBD681A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
