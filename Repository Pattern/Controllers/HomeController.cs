@@ -6,20 +6,40 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Service;
+using Service.Models;
+using Infra.ViewModels;
 
 namespace Repository_Pattern.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly RPDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, RPDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
-
-        public IActionResult Index()
+        public IActionResult Index() => View();
+        [HttpPost]
+        public IActionResult Index(ViewMerch itemDoto)
         {
+
+            var time = DateTime.Now;
+            var item = new merch
+            {
+                Name = itemDoto.Name,
+                Description = itemDoto.Description,
+                Detail = itemDoto.Detail,
+                CreateDate = time
+            };
+
+            _context.merches.Add(item);
+            _context.SaveChanges();
+
+
             return View();
         }
 
