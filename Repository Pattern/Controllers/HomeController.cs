@@ -42,7 +42,22 @@ namespace Repository_Pattern.Controllers
 
             return View();
         }
-
+        [HttpGet]
+        public IActionResult RPlist()
+        {
+            var testLIst = new List<ViewMerch>();
+            var query = from q in _context.merches
+                        where q.Id != 0
+                        select new ViewMerch
+                        {
+                            Name=q.Name,
+                            Detail=q.Detail,
+                            Description=q.Description
+                        };
+            if (query.Any())
+                testLIst = query.ToList();
+            return View(testLIst);
+        }
         public IActionResult Privacy()
         {
             return View();
