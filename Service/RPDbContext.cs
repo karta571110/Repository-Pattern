@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using Service.Models;
+using EntityModels.Models;
 namespace Service
 {
     public class RPDbContext:DbContext
@@ -8,5 +8,6 @@ namespace Service
         public RPDbContext(DbContextOptions<RPDbContext> options):base(options){}
 
         public DbSet<merch> merches { get; set; }
+        public DbSet<whatever> whatevers { get; set; }
     }
 }

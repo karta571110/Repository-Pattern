@@ -7,9 +7,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Service;
-using Service.Models;
-using Infra.ViewModels;
-
+using EntityModels.Models;
+using EntityModels.ViewModels;
+using Service.Models.Repository;
 namespace Repository_Pattern.Controllers
 {
     public class HomeController : Controller
@@ -26,18 +26,18 @@ namespace Repository_Pattern.Controllers
         [HttpPost]
         public IActionResult Index(ViewMerch itemDoto)
         {
-
-            var time = DateTime.Now;
-            var item = new merch
+            using (var pr = new ProductRepository(_context))
             {
-                Name = itemDoto.Name,
-                Description = itemDoto.Description,
-                Detail = itemDoto.Detail,
-                CreateDate = time
-            };
-
-            _context.merches.Add(item);
-            _context.SaveChanges();
+                var time = DateTime.Now;
+                var item = new merch
+                {
+                    Name = itemDoto.Name,
+                    Description = itemDoto.Description,
+                    Detail = itemDoto.Detail,
+                    CreateDate = time
+                };
+                pr.Create(item);
+            }
 
 
             return View();
