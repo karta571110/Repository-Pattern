@@ -20,7 +20,25 @@ namespace Service.Models.Repository
         }
         public void Create(whatever instance)
         {
-            throw new NotImplementedException();
+            if (instance == null)
+            {
+                throw new ArgumentNullException("instance為空");
+            }
+            else
+            {
+                //var time = DateTime.Now;
+                //var item = new merch
+                //{
+                //    Name = instance.Name,
+                //    Description = instance.Description,
+                //    Detail = instance.Detail,
+                //    CreateDate = time
+                //};
+
+                //db.merches.Add(item);            
+                db.whatevers.Add(instance);
+                this.SaveChanges();
+            }
         }
 
         public void Delete(whatever instance)
