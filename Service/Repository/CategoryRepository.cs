@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Service.Models.Repository
 {
-   public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
         protected RPDbContext db
         {
@@ -42,12 +42,12 @@ namespace Service.Models.Repository
 
 
                     db.whatevers.Add(item);
-                   await this.SaveChanges();
+                    await this.SaveChanges();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Console.WriteLine(e.Message);               
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -61,8 +61,16 @@ namespace Service.Models.Repository
                 }
                 else
                 {
-                    db.Entry(instance).State = EntityState.Deleted;
-                   await this.SaveChanges();
+                    var DeItem = new whatever
+                    {
+                        Id = instance.Id,
+                        Name = instance.Name,
+                        Description = instance.Description,
+                        Detail = instance.Detail,
+                        CreateDate = instance.CreateDate
+                    };
+                    db.Entry(DeItem).State = EntityState.Deleted;
+                    await this.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -75,7 +83,7 @@ namespace Service.Models.Repository
         {
             try
             {
-                var instance =await db.whatevers.FirstOrDefaultAsync(x => x.Id == categoryID);
+                var instance = await db.whatevers.FirstOrDefaultAsync(x => x.Id == categoryID);
                 var item = new Viewwhatever
                 {
                     Id = instance.Id,
@@ -100,12 +108,12 @@ namespace Service.Models.Repository
             {
                 var getter = new List<Viewwhatever>();
                 var items = await db.whatevers.OrderBy(x => x.Id).ToListAsync();
-                
+
                 foreach (var e in items)
                 {
                     getter.Add(new Viewwhatever
                     {
-                        Id=e.Id,
+                        Id = e.Id,
                         Name = e.Name,
                         CreateDate = e.CreateDate,
                         Description = e.Description,
@@ -126,9 +134,9 @@ namespace Service.Models.Repository
         {
             try
             {
-               await this.db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine("SaveChange有問題");
@@ -137,6 +145,7 @@ namespace Service.Models.Repository
 
         public async Task Update(Viewwhatever instance)
         {
+            ///Console.WriteLine(instance);
             try
             {
                 if (instance == null)
@@ -147,14 +156,14 @@ namespace Service.Models.Repository
                 {
                     var upItem = new whatever
                     {
-                       Id=instance.Id,
-                       Name=instance.Name,
-                       Description=instance.Description,
-                       Detail=instance.Detail
+                        Id = instance.Id,
+                        Name = instance.Name,
+                        Description = instance.Description,
+                        Detail = instance.Detail
 
                     };
                     db.Entry(upItem).State = EntityState.Modified;
-                   await this.SaveChanges();
+                    await this.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -180,6 +189,6 @@ namespace Service.Models.Repository
             }
         }
 
-        
+
     }
 }
