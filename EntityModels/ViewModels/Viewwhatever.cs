@@ -7,9 +7,11 @@ namespace EntityModels.ViewModels
 {
    public class Viewwhatever
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public string Detail { get; set; }
+        public DateTime CreateDate { get; set; }
     }
 }

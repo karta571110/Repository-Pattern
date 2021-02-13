@@ -26,19 +26,13 @@ namespace Repository_Pattern.Controllers
         [HttpPost]
         public IActionResult Index(ViewMerch itemDoto)
         {
-            using (var pr = new ProductRepository(_context))
+            if (ModelState.IsValid)
             {
-                var time = DateTime.Now;
-                var item = new merch
+                using (var pr = new ProductRepository(_context))
                 {
-                    Name = itemDoto.Name,
-                    Description = itemDoto.Description,
-                    Detail = itemDoto.Detail,
-                    CreateDate = time
-                };
-                pr.Create(item);
+                    pr.Create(itemDoto);
+                }
             }
-
 
             return View();
         }
