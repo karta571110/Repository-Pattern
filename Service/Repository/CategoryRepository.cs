@@ -7,6 +7,7 @@ using EntityModels.ViewModels;
 using EntityModels.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Service.Interface;
 
 namespace Service.Models.Repository
 {
@@ -51,7 +52,7 @@ namespace Service.Models.Repository
             }
         }
 
-        public async Task Delete(int id=-1)
+        public async Task Delete(int id = -1)
         {
             try
             {
@@ -61,7 +62,7 @@ namespace Service.Models.Repository
                 }
                 else
                 {
-                   var DeItem= await db.whatevers.FirstAsync(e => e.Id == id);
+                    var DeItem = await db.whatevers.FirstAsync(e => e.Id == id);
                     db.Entry(DeItem).State = EntityState.Deleted;
                     await this.SaveChanges();
                 }

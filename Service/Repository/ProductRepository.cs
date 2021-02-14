@@ -6,6 +6,7 @@ using Service.Models.Interface;
 using EntityModels.Models;
 using Microsoft.EntityFrameworkCore;
 using EntityModels.ViewModels;
+using System.Threading.Tasks;
 
 namespace Service.Models.Repository
 {
@@ -18,9 +19,9 @@ namespace Service.Models.Repository
         }
         public ProductRepository(RPDbContext context)
         {
-            this.db=context;
+            this.db = context;
         }
-        public void Create(ViewMerch instance)
+        public async Task Create(ViewMerch instance)
         {
             try
             {
@@ -41,19 +42,19 @@ namespace Service.Models.Repository
 
                     //db.ViewMerches.Add(item);            
                     db.merches.Add(item);
-                    this.SaveChanges();
+                    await this.SaveChanges();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-        public ViewMerch Get(int productID)
+        public async Task<ViewMerch> Get(int productID)
         {
             try
             {
-                var instance = db.merches.FirstOrDefault(x => x.Id == productID);
+                var instance =await db.merches.FirstOrDefaultAsync(x => x.Id == productID);
                 var item = new ViewMerch
                 {
                     Name = instance.Name,
@@ -63,13 +64,13 @@ namespace Service.Models.Repository
                 };
                 return item;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
             }
         }
-        public void Update(ViewMerch instance)
+        public async Task Update(ViewMerch instance)
         {
             try
             {
@@ -78,44 +79,52 @@ namespace Service.Models.Repository
                     throw new ArgumentNullException("instance為空");
                 }
                 else
-                {
-                    db.Entry(instance).State = EntityState.Modified;
-                    this.SaveChanges();
+                {    
+                    var upItem = new merch
+                    {
+                        Id=instance.Id,
+                        Name=instance.Name,
+                        Description=instance.Description,
+                        Detail=instance.Detail,
+                        CreateDate=instance.CreateDate
+                    };
+                    db.Entry(upItem).State = EntityState.Modified;
+                    await this.SaveChanges();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-        public void Delete(ViewMerch instance)
+        public async Task Delete(int id = -1)
         {
             try
             {
-                if (instance == null)
+                if (id == -1)
                 {
                     throw new ArgumentNullException("instance為空");
                 }
                 else
                 {
-                    var item=
-                    db.Entry(instance).State = EntityState.Deleted;
-                    this.SaveChanges();
+                    var item = await db.merches.FirstAsync(e => e.Id == id);
+                    db.Entry(item).State = EntityState.Deleted;
+                    await this.SaveChanges();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Console.WriteLine(e.Message);                
+                Console.WriteLine(e.Message);
             }
         }
-        
 
-        public IQueryable<ViewMerch> GetAll()
+
+        public async Task<IQueryable<ViewMerch>> GetAll()
         {
             try
             {
                 var getter = new List<ViewMerch>();
-                var items = db.merches.OrderBy(x => x.Id).ToList();
+                var items =await db.merches.OrderBy(x => x.Id).ToListAsync();
                 foreach (var e in items)
                 {
                     getter.Add(new ViewMerch
@@ -128,20 +137,20 @@ namespace Service.Models.Repository
                 }
                 return getter.AsQueryable();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
             }
-           
+
         }
 
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
-        
+
         public void Dispose()
         {
             this.Dispose(true);
@@ -158,6 +167,6 @@ namespace Service.Models.Repository
                 }
             }
         }
-       
+
     }
 }

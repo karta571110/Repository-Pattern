@@ -4,23 +4,14 @@ using System.Linq;
 using System.Text;
 using EntityModels.Models;
 using EntityModels.ViewModels;
+using Service.Interface;
 
 namespace Service.Models.Interface
 {
-    interface IProductRepository: IDisposable
+    interface IProductRepository: IRepository<ViewMerch>
     {
         
 
-        void Create(ViewMerch instance);
-
-        void Update(ViewMerch instance);
-
-        void Delete(ViewMerch instance);
-
-        ViewMerch Get(int productID);
-
-        IQueryable<ViewMerch> GetAll();
-
-        void SaveChanges();
+        
     }
 }
