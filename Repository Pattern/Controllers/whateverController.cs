@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service;
 using Service.Models.Repository;
+using Service.Models.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace Repository_Pattern.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly RPDbContext _context;
+        private readonly ICategoryRepository db;
         public whateverController(RPDbContext context, ILogger<HomeController> logger)
         {
             _logger = logger;
             _context = context;
+            db = new CategoryRepository(context);
         }
         public IActionResult Create() => View();
         [HttpPost]
@@ -32,11 +35,10 @@ namespace Repository_Pattern.Controllers
         [HttpGet]
         public async Task<IActionResult> weList()
         {
-            using (var db = new CategoryRepository(_context))
-            {
+            
                 var list = await db.GetAll();
                 return View(list.ToList());
-            }
+            
         }
         public IActionResult Edit() => View();
         [HttpPost]
