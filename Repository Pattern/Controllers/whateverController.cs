@@ -52,14 +52,15 @@ namespace Repository_Pattern.Controllers
             }
             return View();
         }
-        public async Task<IActionResult> Delete(Viewwhatever viewitem)
+        
+        public async Task<IActionResult> Delete(int id)
         {
-            Console.WriteLine(viewitem);
+            
             using(var db=new CategoryRepository(_context))
             {
-               await db.Delete(viewitem);
+                await db.Delete(id);
             }
-           return View();
+           return RedirectToAction("weList");
         }
     }
 }

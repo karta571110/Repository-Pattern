@@ -14,7 +14,7 @@ namespace Service.Models.Interface
 
         Task Update(Viewwhatever instance);
 
-        Task Delete(Viewwhatever instance);
+        Task Delete(int id);
 
         Task<Viewwhatever> Get(int categoryID);
 

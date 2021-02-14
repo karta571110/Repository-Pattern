@@ -51,24 +51,17 @@ namespace Service.Models.Repository
             }
         }
 
-        public async Task Delete(Viewwhatever instance)
+        public async Task Delete(int id=-1)
         {
             try
             {
-                if (instance == null)
+                if (id == -1)
                 {
                     throw new ArgumentNullException("instance為空");
                 }
                 else
                 {
-                    var DeItem = new whatever
-                    {
-                        Id = instance.Id,
-                        Name = instance.Name,
-                        Description = instance.Description,
-                        Detail = instance.Detail,
-                        CreateDate = instance.CreateDate
-                    };
+                   var DeItem= await db.whatevers.FirstAsync(e => e.Id == id);
                     db.Entry(DeItem).State = EntityState.Deleted;
                     await this.SaveChanges();
                 }
