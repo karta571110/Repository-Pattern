@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Service.Interface;
-using Service.Models.Repository;
+//using Service.Models.Repository;
 
 namespace Service.Repository
 {
     public class GenericRepository<TEntity> : IRepository<TEntity>
         where TEntity : class
     {
+        private bool disposedValue;
+
         protected RPDbContext db
         {
             get;
             private set;
         }
-       public GenericRepository(RPDbContext context)
+        public GenericRepository(RPDbContext context)
         {
             this.db = context;
-        } 
-        public Task Create(TEntity instance)
+        }
+        public async Task Create(TEntity instance)
         {
             try
             {
@@ -30,17 +34,7 @@ namespace Service.Repository
                 }
                 else
                 {
-                    var time = DateTime.Now;
-                    var item = new whatever
-                    {
-                        Name = instance.Name,
-                        Description = instance.Description,
-                        Detail = instance.Detail,
-                        CreateDate = time
-                    };
-
-
-                   await db.whatevers.AddAsync(item);
+                    await db.Set<TEntity>().AddAsync(instance);
                     await this.SaveChanges();
                 }
             }
@@ -50,24 +44,53 @@ namespace Service.Repository
             }
         }
 
-        public Task Delete(int id = -1)
+        public async Task Delete(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            try
+            {
+                
+                    var DeItem = await db.Set<TEntity>().FirstAsync(predicate);
+                    db.Entry(DeItem).State = EntityState.Deleted;
+                    await this.SaveChanges();
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
-        public void Dispose()
+        
+
+        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var instance = await db.Set<TEntity>().FirstOrDefaultAsync(predicate);
+                
+                return instance;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Get 有問題");
+                return null;
+            }
         }
 
-        public Task<TEntity> Get(int primaryID)
+        public async Task<IQueryable<TEntity>> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IQueryable<TEntity>> GetAll()
-        {
-            throw new NotImplementedException();
+            try
+            {
+                var items =  db.Set<TEntity>().AsQueryable();
+                return items;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("GetAll有問題");
+                return null;
+            }
         }
 
         public async Task SaveChanges()
@@ -86,6 +109,24 @@ namespace Service.Repository
         public Task Update(TEntity instance)
         {
             throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this._context != null)
+                {
+                    this._context.Dispose();
+                    this._context = null;
+                }
+            }
         }
     }
 }
