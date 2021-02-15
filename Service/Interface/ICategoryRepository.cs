@@ -8,8 +8,8 @@ using EntityModels.ViewModels;
 using Service.Models.Interface;
 namespace Service.Interface
 {
-    public interface ICategoryRepository : IRepository<Viewwhatever>
+    public interface ICategoryRepository : IRepository<whatever>
     {
-        
+        whatever GetByID(int categoryID);
     }
 }
